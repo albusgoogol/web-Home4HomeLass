@@ -5,7 +5,7 @@
   $db = "dbhame";
 
   $res = array();
-  $item['items'] = array();
+  $item['range'] = array();
 
   $conn = new PDO("mysql:host=" . $host . ";dbname=" . $db, $us, $pw, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
   //$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -14,8 +14,15 @@
   while ($row = $result->fetch()){
       $res['code'] = $row['age_code'];
       $res['name'] = $row['age_name'];
-      array_push($item['items'], $res);
+      array_push($item['range'], $res);
   }
-  echo json_encode($item);
+  $res = array();
+  $item['job'] = array();
+  $result = $conn->query('SELECT  *FROM lastjob');
+  while ($row = $result->fetch()){
+      $res['job'] = $row['lastjob_name'];
+      array_push($item['job'], $res);
+  }
 
+  echo json_encode($item);
  ?>
